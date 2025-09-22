@@ -4,7 +4,7 @@ pipeline {
     tools {
         // Utilise le JDK et Maven que tu as configurés dans Jenkins (Global Tool Configuration)
         jdk 'JDK17'         // Remplace par le nom que tu as donné à ton JDK dans Jenkins
-        maven 'Maven3'      // Remplace par le nom que tu as donné à ton Maven dans Jenkins
+        maven 'MAVEN_HOME'      // Remplace par le nom que tu as donné à ton Maven dans Jenkins
     }
 
     stages {
