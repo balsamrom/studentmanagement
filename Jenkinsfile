@@ -2,9 +2,8 @@ pipeline {
     agent any
 
     tools {
-        // Utilise le JDK et Maven que tu as configurés dans Jenkins (Global Tool Configuration)
-        jdk 'JDK17'         // Remplace par le nom que tu as donné à ton JDK dans Jenkins
-        maven 'MAVEN_HOME'      // Remplace par le nom que tu as donné à ton Maven dans Jenkins
+        jdk 'JDK17'
+        maven 'MAVEN_HOME'
     }
 
     stages {
@@ -14,24 +13,14 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build, Test and Package') {
             steps {
-                bat 'mvn clean install'
-            }
-        }
-
-        stage('Tests') {
-            steps {
-                bat 'mvn test'
-            }
-        }
-
-        stage('Package') {
-            steps {
-                bat 'mvn package'
+                // Une seule commande pour tout faire
+                bat 'mvn clean package'
             }
             post {
                 success {
+                    junit 'target/surefire-reports/**/*.xml'
                     archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                 }
             }
@@ -40,7 +29,7 @@ pipeline {
 
     post {
         always {
-            echo "Pipeline terminé (succès ou échec)."
+            echo "Pipeline terminé."
         }
         success {
             echo "✅ Build réussi !"
